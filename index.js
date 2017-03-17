@@ -1,9 +1,16 @@
 const express = require('express');
-const app = express();
+const https = require("https");
 const DotaBot = require('./dotaBot');
-const botKey = process.env.BOT_KEY || '';
 
+const app = express();
+const botKey = process.env.BOT_KEY || '';
 const dotaBot = new DotaBot(botKey);
+
+// wake up heroku bot
+setInterval(function() {
+    https.get("https://dotabot.herokuapp.com/");
+}, 300000); // every 5 minutes (300000)
+
 
 app.set('port', (process.env.PORT || 5000));
 
