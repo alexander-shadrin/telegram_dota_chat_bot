@@ -16,7 +16,7 @@
     "url": "https://github.com/alexander-shadrin/telegram_dota_chat_bot/issues"
   },
   "homepage": "https://github.com/alexander-shadrin/telegram_dota_chat_bot#readme",
-  "devDependencies": {
+  "dependencies": {
     "express": "^4.15.2"
   }
 }
