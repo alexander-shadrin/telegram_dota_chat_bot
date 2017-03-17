@@ -7,6 +7,10 @@ const dotaBot = new DotaBot(botKey);
 
 app.set('port', (process.env.PORT || 5000));
 
+app.get('/', function(req, res) {
+  res.send(`it's alive`);
+});
+
 // forwebhook
 app.post(`/${botKey}`, (req, res) => {
   res.send('testbot');
