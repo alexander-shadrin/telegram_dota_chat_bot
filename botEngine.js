@@ -4,7 +4,7 @@ class Bot {
   constructor(key){
     this.telegramUrl = 'api.telegram.org';
     this.key = key;
-    let updateId = 0;
+    
   }
 
   handleUpdates(update) {
@@ -12,6 +12,7 @@ class Bot {
   }
 
   startLongPolling() {
+    let updateId = 0;
     setInterval( () => {
       this.getUpdates(updateId).then((updates) => {
         JSON.parse(updates).result.map( update => {
@@ -19,7 +20,7 @@ class Bot {
           this.handleUpdates(update);
         });
       });
-    }, 5000);
+    }, 1000);
   }
 
   setWebhook(url){
