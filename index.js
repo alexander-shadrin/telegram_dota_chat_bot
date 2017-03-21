@@ -4,7 +4,18 @@ const DotaBot = require('./dotaBot');
 
 const app = express();
 const botKey = process.env.BOT_KEY || '';
+const webhookUrl = process.env.WEBHOOK_URL ? `${process.env.WEBHOOK_URL}${process.env.BOT_KEY}` : '';
 const dotaBot = new DotaBot(botKey);
+
+if (webhookUrl) {
+  dotaBot.setWebhook(webhookUrl).then(() => {
+    console.log('ok');
+  }, () => {
+    dotaBot.startLongPolling();
+  });
+} else {
+  dotaBot.startLongPolling();
+}
 
 // wake up heroku bot
 setInterval(function() {
@@ -20,7 +31,8 @@ app.get('/', function(req, res) {
 
 // forwebhook
 app.post(`/${botKey}`, (req, res) => {
-  res.send('testbot');
+  console.log(req);
+  dotaBot.handleUpdates(request.body);
 });
 
 app.listen(app.get('port'), function() {

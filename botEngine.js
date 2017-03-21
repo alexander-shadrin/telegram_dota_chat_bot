@@ -5,6 +5,13 @@ class Bot {
     this.telegramUrl = 'api.telegram.org';
     this.key = key;
     let updateId = 0;
+  }
+
+  handleUpdates(update) {
+    // do nothing
+  }
+
+  startLongPolling() {
     setInterval( () => {
       this.getUpdates(updateId).then((updates) => {
         JSON.parse(updates).result.map( update => {
@@ -15,8 +22,31 @@ class Bot {
     }, 5000);
   }
 
-  handleUpdates(update) {
-    // do nothing
+  setWebhook(url){
+    const webhookParams = JSON.stringify({ url: url });
+    const method = 'setWebhook';
+    const options = {
+      hostname: `${this.telegramUrl}`,
+      port: 443,
+      path: `/bot${this.key}/${method}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(webhookParams),
+      }
+    };
+    return HTTP.httpsPost(options, webhookParams);
+  }
+
+  deleteWebhook(){
+    const method = 'deleteWebhook';
+    const options = {
+      hostname: `${this.telegramUrl}`,
+      port: 443,
+      path: `/bot${this.key}/${method}`,
+      method: 'GET'
+    };
+    return HTTP.httpsGet(options);
   }
 
   getUpdates(updateId){
