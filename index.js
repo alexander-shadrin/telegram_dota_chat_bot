@@ -1,8 +1,12 @@
 const express = require('express');
+const bodyParser = require("body-parser");
 const https = require("https");
 const DotaBot = require('./dotaBot');
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 const botKey = process.env.BOT_KEY || '';
 const webhookUrl = process.env.WEBHOOK_URL ? `${process.env.WEBHOOK_URL}${process.env.BOT_KEY}` : '';
 const dotaBot = new DotaBot(botKey);
@@ -31,7 +35,7 @@ app.get('/', function(req, res) {
 
 // forwebhook
 app.post(`/${botKey}`, (req, res) => {
-  console.log(req);
+  console.log(req.body);
   dotaBot.handleUpdates(req.body);
   res.send(`ok`);
 });
