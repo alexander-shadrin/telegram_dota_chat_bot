@@ -32,7 +32,8 @@ app.get('/', function(req, res) {
 // forwebhook
 app.post(`/${botKey}`, (req, res) => {
   console.log(req);
-  dotaBot.handleUpdates(request.body);
+  dotaBot.handleUpdates(req.body);
+  res.send(`ok`);
 });
 
 app.listen(app.get('port'), function() {
